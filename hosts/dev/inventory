@@ -1,0 +1,5 @@
+[web]
+web.amazonlinux
+
+[db]
+db.amazonlinux

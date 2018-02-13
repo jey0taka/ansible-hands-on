@@ -1,0 +1,9 @@
+Host web.amazonlinux
+  HostName xx.xx.xx.xx
+  User ec2-user
+  IdentityFile /PAYH/TO/key.pem
+
+Host db.amazonlinux
+  HostName xx.xx.xx.xx
+  User ec2-user
+  IdentityFile /PAYH/TO/key.pem

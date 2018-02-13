@@ -1,0 +1,23 @@
+---
+- hosts: all
+
+- name: "/etc/cloud/cloud.cfg"
+  lineinfile: 'dest=/etc/cloud/cloud.cfg line="locale: {{locale}}"'
+- name: set repo_upgrade to /etc/cloud/cloud.cfg
+  lineinfile: 'dest=/etc/cloud/cloud.cfg regexp="repo_upgrade\:" line="repo_upgrade: {{repo_upgrade}}"'
+- name: "/etc/sysconfig/i18n"
+  replace: >
+    dest=/etc/sysconfig/i18n
+    regexp='^LANG=en_US\.UTF-8'
+    replace='LANG={{locale}}'
+- name: "/etc/sysconfig/clock"
+  replace: >
+    dest=/etc/sysconfig/clock
+    regexp='^ZONE=\"UTC\"'
+    replace='ZONE="{{zone}}"'
+- name: "/etc/localtime"
+  file: >
+    src={{zoneinfo_path}}
+    dest=/etc/localtime
+    state=link
+    force=yes
