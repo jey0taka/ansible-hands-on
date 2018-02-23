@@ -1,5 +1,5 @@
 [web]
-web.amazonlinux
+web01.amazonlinux
 
-[db]
-db.amazonlinux
+[app]
+app01.amazonlinux

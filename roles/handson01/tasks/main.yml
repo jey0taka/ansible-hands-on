@@ -1,0 +1,21 @@
+---
+- name: "yum install httpd"
+  yum: name={{item}} state=latest
+  with_items:
+  - "httpd24"
+  - "php71"
+  - "php71-gd"
+  - "php71-mbstring"
+  - "php71-mysqlnd"
+
+- name: "start httpd"
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Create VirtualHost Dir
+  file: path={{vhost_docroot}}{{vhost_domain}}/public_html state=directory recurse=yes mode=0775
+- name: Create VirtualHost Config
+  template: src=vhost_orig.conf.j2 dest=/etc/httpd/conf.d/10_vhost_{{vhost_domain}}.conf
+  notify: Restart Apache

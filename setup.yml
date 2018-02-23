@@ -1,0 +1,7 @@
+---
+- hosts: all
+
+  roles:
+  - role: handson00
+  - role: handson01
+  - role: handson02

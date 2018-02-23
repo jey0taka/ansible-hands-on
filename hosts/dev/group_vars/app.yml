@@ -1,0 +1,11 @@
+vhost_domain:           "web01.local"
+vhost_docroot:          "/var/www/vhosts/"
+
+db_user: wp02user
+db_password: wp02password
+db_name: wpdb02
+
+site_name: site02
+admin_name: site02-admin
+admin_pass: pass02
+admin_email: site02@hogehoge.com

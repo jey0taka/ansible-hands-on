@@ -1,5 +1,34 @@
 ---
-- hosts: all
+- name: Apply All Updates
+  yum: name=* state=latest
+
+- name: install util
+  yum: name={{item}} state=latest
+  with_items:
+  - "gcc"
+  - "make"
+  - "telnet"
+  - "wget"
+  - "tcpdump"
+  - "sysstat"
+  - "nmap"
+  - "git"
+  - "openssl-devel"
+  - "vim-enhanced"
+  - "python-devel"
+  - "python-setuptools"
+  - "curl"
+  - "curl-devel"
+  - "unzip"
+
+- name: Install pip
+  easy_install: name=pip state=latest
+
+- name: Install aws-tools
+  pip: name={{item}} state=latest
+  with_items:
+  - awscli
+  - aws-shell
 
 - name: "/etc/cloud/cloud.cfg"
   lineinfile: 'dest=/etc/cloud/cloud.cfg line="locale: {{locale}}"'

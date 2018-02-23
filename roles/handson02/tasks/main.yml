@@ -1,0 +1,58 @@
+---
+- name: mysql56-server installed
+  yum:
+    name: mysql56-server
+
+- name: mysqld service started
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: "install MySQL-python27 for DB module"
+  yum:
+    name: MySQL-python27
+- name: "DB master user"
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: '*.*:ALL'
+- name: "Database"
+  mysql_db:
+    name: "{{ db_name }}"
+
+- name: Was wp-cmd installed?
+  stat: path=/usr/local/bin/wp
+  register: is_file
+
+- name: Install wp-cli
+  get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: /usr/local/bin/wp
+    mode: 0755
+  when: not is_file.stat.exists
+ 
+- name: Change Dir User
+  file: path={{vhost_docroot}}{{vhost_domain}} state=directory recurse=yes mode=0775 owner=apache group=apache
+
+- name: Check Wordpress Installed
+  stat: path={{vhost_docroot}}{{vhost_domain}}/public_html/wp-login.php
+  register: wp_downloaded
+
+- name: Download wp core
+  shell: /usr/local/bin/wp core download --path="{{ vhost_docroot }}{{ vhost_domain }}/public_html"
+  become: yes
+  become_user: apache
+  when: not wp_downloaded.stat.exists 
+
+- name: Generate wp config
+  shell: /usr/local/bin/wp core config --dbname="{{db_name}}" --dbuser="{{db_user}}" --dbpass="{{db_password}}" --dbhost="127.0.0.1" --path="{{ vhost_docroot }}{{ vhost_domain }}/public_html"
+  become: yes
+  become_user: apache
+  when: not wp_downloaded.stat.exists 
+
+- name: Install wp
+  shell: /usr/local/bin/wp core install --url="vhost_domain" --title="{{site_name}}" --admin_user="{{admin_name}}" --admin_password="{{admin_pass}}" --admin_email="{{admin_email}}" --path="{{ vhost_docroot }}{{ vhost_domain }}/public_html"
+  become: yes
+  become_user: apache
+  when: not wp_downloaded.stat.exists
