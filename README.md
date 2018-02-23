@@ -15,6 +15,8 @@
 
   がインストールされます。
 
+- EC2 ＆ AmazonLinux v1 前提です。
+
 
 
 ## 前もって用意いただくもの
@@ -30,7 +32,7 @@
 
 ### リポジトリのClone
 
-- 適当なディレクト
+- 適当なディレクトリ
 
 ```
 $ git clone https://github.com/jey0taka/ansible-hands-on.git
