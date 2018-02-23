@@ -52,7 +52,7 @@
   when: not wp_downloaded.stat.exists 
 
 - name: Install wp
-  shell: /usr/local/bin/wp core install --url="vhost_domain" --title="{{site_name}}" --admin_user="{{admin_name}}" --admin_password="{{admin_pass}}" --admin_email="{{admin_email}}" --path="{{ vhost_docroot }}{{ vhost_domain }}/public_html"
+  shell: /usr/local/bin/wp core install --url="{{vhost_domain}}" --title="{{site_name}}" --admin_user="{{admin_name}}" --admin_password="{{admin_pass}}" --admin_email="{{admin_email}}" --path="{{ vhost_docroot }}{{ vhost_domain }}/public_html"
   become: yes
   become_user: apache
   when: not wp_downloaded.stat.exists
