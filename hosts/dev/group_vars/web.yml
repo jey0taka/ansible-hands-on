@@ -1,4 +1,4 @@
-vhost_domain:           "web01.local"
+vhost_domain:           "site01.local"
 vhost_docroot:          "/var/www/vhosts/"
 
 db_user: wp01user

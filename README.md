@@ -66,7 +66,7 @@ $ sudo pip install ansible
 
 ### Windows環境
 
-- がんばれ。
+- がんばれ！！
 
 
 
@@ -80,10 +80,17 @@ Host web01.amazonlinux
   HostName XXX.XXX.XXX.XXX
   User ec2-user
   IdentityFile /PATH/TO/YOUREKEY.pem
+  
+Host app01.amazonlinux
+  HostName XXX.XXX.XXX.XXX
+  User ec2-user
+  IdentityFile /PATH/TO/YOUREKEY.pem
 ```
 
 - HostName : EC2のIPアドレスを記載
 - IdentityFile : SSHキーへのパス
+
+
 
 
 
@@ -100,29 +107,10 @@ Host web01.amazonlinux
   - メールアドレス
 
 
-
-####  hosts/dev/group_vars/app.yml
-
-```
-vhost_domain:           "web01.local"　
-vhost_docroot:          "/var/www/vhosts/"　
-
-db_user: wp01user
-db_password: wp01password
-db_name: wpdb01
-
-site_name: site01
-admin_name: site01-admin
-admin_pass: pass01
-admin_email: site01@hogehoge.com
-```
-
-
-
 ####  hosts/dev/group_vars/web.yml
 
 ```
-vhost_domain:           "web01.local"
+vhost_domain:           "site01.local"
 vhost_docroot:          "/var/www/vhosts/"
 
 db_user: wp01user
@@ -137,7 +125,41 @@ admin_email: site01@hogehoge.com
 
 
 
+#### hosts/dev/group_vars/app.yml
 
+```
+vhost_domain:           "site02.local"
+vhost_docroot:          "/var/www/vhosts/"
+
+db_user: wp02user
+db_password: wp02password
+db_name: wpdb02
+
+site_name: site02
+admin_name: site02-admin
+admin_pass: pass02
+admin_email: site02@hogehoge.com
+```
+
+
+
+### 動作確認
+
+- EC2インスタンスへのSSH接続
+
+  ```
+  $ ssh -F ssh_config  web01.amazonlinux
+  $ ssh -F ssh_config  app01.amazonlinux
+  ```
+
+- ansibleコマンドの確認
+
+  ```
+  $ ansible all -i hosts/dev/inventory -m ping
+  $ ansible all -i hosts/dev/inventory -a "date"
+  ```
+
+  ​
 
 ## ハンズオン00
 
